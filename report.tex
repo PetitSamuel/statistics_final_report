@@ -15,88 +15,96 @@
 \begin{document}
 \section*{Question 1}
 \subsection*{Part a}
-We have a total of 10 topics and need to pick 3 so the amount of possible combinations
-is $\begin{pmatrix} 10 \\ 3 \end{pmatrix} = 120$.
+We have a total of 10 topics and need to pick 3 per exam so the amount of possible combinations
+is $\begin{pmatrix} 10 \\ 3 \end{pmatrix} = 120$. This works for unordered topics without replacement.
 
 
 \subsection*{Part b}
-There are $\begin{pmatrix} 10 - n \\ 3 \end{pmatrix}$ combinations of exams such that no studied topics
-appear. Thus using the value from part a, we have $\frac{\begin{pmatrix} 10 - n \\ 3 \end{pmatrix}}{120}$.
+There are $\begin{pmatrix} 10 - n \\ 3 \end{pmatrix}$ combinations of exams such that 
+no studied topics appear. Dividing this number with the total combination of exams from 
+part a gives us the probability of failing:
+$\frac{\begin{pmatrix} 10 - n \\ 3 \end{pmatrix}}{120}$.
 
 
 \subsection*{Part c}
-Let's derive an expression for passing the exam and then take its inverse. There are 2 cases to consider. When 2 out of the 3 topics were studied, there are $(10 - n) * \begin{pmatrix} n \\ 2 \end{pmatrix}$
-exam combinations. This multiplies the number of combinations for the non studied topic by the
-combinations of 2 studied topics. Then the scenario that all 3 topics on the exam were studied, there are 
+It is easier to derive an expression for passing. There are 2 cases to consider. 
+When 2 out of the 3 topics were studied, there are $(10 - n) * \begin{pmatrix} n \\ 2 \end{pmatrix}$
+combinations. This multiplies the number of combinations for the non studied topic by the
+combinations of 2 studied topics. When all 3 topics on the exam were studied, there are 
 $\begin{pmatrix} n \\ 3 \end{pmatrix}$ combinations thus the probability of failing the exam is: $    1 - [ \frac{(10 - n) * \begin{pmatrix} n \\ 2 \end{pmatrix} + \begin{pmatrix} n \\ 3 \end{pmatrix}}{\begin{pmatrix} 10 \\ 3 \end{pmatrix}}]$.
 The plot is provided in the following question (part d).
 
 \subsection*{Part d}
 When an exam is composed of 4 question there are 3 cases to consider in order to obtain an expression for passing the exam.
-Using the same idea from part c, we sum the combinations for knowing, 2, 3 and 4 of the topics on the exam. we obtain the following expression for failing the exam: $1 - [\frac{\begin{pmatrix} 10 - n \\ 2 \end{pmatrix}\begin{pmatrix} n \\ 2 \end{pmatrix}+(10 - n)\begin{pmatrix} n \\ 3 \end{pmatrix} + \begin{pmatrix} n \\ 4 \end{pmatrix}}{\begin{pmatrix} 10 \\ 4 \end{pmatrix}}]$
-Using the code in the Appendix section A,  I was able to plot the expressions for both 3 and 4 questions exams. We notice that
+Using the same idea from part c, we sum the amount of combinations for knowing, 2, 3 and 4 of the topics on the exam:
+$1 - [\frac{\begin{pmatrix} 10 - n \\ 2 \end{pmatrix}\begin{pmatrix} n \\ 2 \end{pmatrix}+(10 - n)\begin{pmatrix} n \\ 3 \end{pmatrix} + \begin{pmatrix} n \\ 4 \end{pmatrix}}{\begin{pmatrix} 10 \\ 4 \end{pmatrix}}]$.
+Using the code in the Appendix section A,  I obtained the following plot. We notice that
 a 4 questions exam system is easier to pass for any number of studied topics, with the biggest difference
-occuring when $ n = 4 $ and $ n = 5 $.
+occuring when $ n = 4 $ and $ n = 5 $ and very low chance of failing when $ n \geq 6$. For a 3 questions exam the probability
+is as low when $ n \geq 8 $, making the exam much simpler to pass with a 4 questions system.
 \begin{center}
-    \includegraphics[scale=0.4]{final_1}
+    \includegraphics[scale=0.4]{final_11}
 \end{center}
 
 \subsection*{Part e}
-The code for the stochastic simulation is provided in the appendix section B. 
+The code for the stochastic simulation is in the appendix section B. 
 
 \subsection*{Part f}
-The code for the extended simulation is provided in the appendix section C.
-The expression for a 95\% confidence interval using the central limit theorem is $[\mu − 1.96\sigma, \mu + 1.96\sigma]$
+The code for the extended simulation is in the appendix section C.
+The expression for a 95\% confidence interval using the central limit theorem is $[\mu − 1.96\sigma, \mu + 1.96\sigma]$.
 Here we have $ \mu = E[X_{i}] $. So we only need to find and expression for $ \sigma $.
-We have $ var(\frac{1}{n} \sum_{i=1}^N Y_{i}) = \frac{1}{n^2} \sum_{i=1}^N var(Y_{i}) = \frac{var(Y_{i})}{n} = \sigma^2$.
+$ var(\frac{1}{n} \sum_{i=1}^N Y_{i}) = \frac{1}{n^2} \sum_{i=1}^N var(Y_{i}) = \frac{var(Y_{i})}{n} = \sigma^2$.
 Finally, $ \sigma = \sqrt{\frac{E[X_{i}] * (1 - E[X_{i})}{N}} = \sqrt{\frac{0.1497}{N}} $. So our expression for
 a 95\% confidence interval using CLT is $[E[X_{i}] − 1.96\sqrt{\frac{0.1497}{N}}, E[X_{i}] + 1.96\sqrt{\frac{0.1497}{N}}]$
 Using $ N = 1000 $ and $ N = 10000 $ we then get $ [0.79272, 0.84068]_{N=1000} $ and $ [0.80912, 0.82428]_{N=10000} $ 
+
+
 \subsection*{Part g}
-I will use chebyshev's inequality with 95\% confidence and solve for n in order to find how many times I should run
+I will use Chebyshev's inequality with 95\% confidence and solve for n to find how many times I should run
 my simulation. Let's choose $\epsilon = 0.1 $ , we have $ E[X_{i}] = 0.8167 $ and $ var(X_{i}) = 0.1497$
-from previous questions. Using these values in the inequality we obtain: $ P(|Y - E[X_{i}| \geq 0.1) \leq \frac{0.1497}{n(0.1)^2} $
+from previous questions. Then we have: $ P(|Y - E[X_{i}| \geq 0.1) \leq \frac{0.1497}{n(0.1)^2} $
 $\Leftrightarrow \frac{0.1497}{n(0.1)^2} \leq 0.05 \Leftrightarrow n \geq 299$. So I will run my simulation 300 times.
 Running with $ N = 1000 $ we find that the emprical mean falls 94.3\% of the times within the interval. With 
-$ N = 10000 $ it is 96.3\%. We find that for both values of N, we get a percentage to be expected since
-we built the confidence intervals with 95\% accuracy and the obtained percentages are very close.
+$ N = 10000 $ it is 96.3\%. We find that both values of N fall very close to 95\%.
+The CLT confidence intervals were built with with 95\% accuracy so everything is in order.
 
 \subsection*{Part h}
 If students know that topics from the previous exam are more likely to appear, then overall students
-might choose to prioritise studying those topics. However this also only applies to 3 topics and thus
+they will likely prioritise studying those topics. However this also only applies to 3 topics and thus
 some students may also still decide to study potentially easier topics instead of a certain topic 
 from the previous year. So in general a system like this would affect overall how the class studies but
 it would not get rid of students deciding to only study different topics either. Thus I believe it makes sense to 
-use the same weights for drawing the exam questions as for drawing the topics a student decides to study in 
-my simulation. Using the simulation, there is no surprise there, as topics are more predictable, with the 
-empirical mean for passing getting to 0.5 near 4.5 topics studied, and gets near 0.8 when 6 topics are studied.
-In the case that exam questions are less likely to appear if they were in the previous exam then with students using
+use the same weights for drawing the exam questions as for drawing the topics a student decides to study.
+Using the simulation, we notice an overall increase in the means for passing, with the empirical mean getting to $0.5$
+near $4.5$ topics studied, and gets near $0.8$ when $6$ topics are studied. In the case that exam  questions are less likely to appear if they were in the previous exam then with students using
 the same approach as previously outlined, except this time being less likely to study those topics, we also notice
 an increase overall in means for passing for all amounts of topics studied however the difference is not as big as the previous
-approach.
-Finally, if questions are excpeted to be more predictable based on the previous exam when they are in fact 
+since this leaves $7$ remaining topics that are more likely to be drawn, so the probability for one of these to appear in the
+exam would be significantly lower than previously where only 3 topics were more likely to be drawn.
+Finally, if questions are excpected to be more predictable based on the previous exam when they are in fact 
 chosen at random will negatively affect the mean of passing students for all amounts of studied topics. This is 
 due to the fact that students will prioritise a subset of topics which are infact as likely to be drawn as 
 any other topic.
 
 
 \section*{Question 2}
+Data id: $0.29:0.5-0.374:2-0.584:2-0$
 \subsection*{Part a}
-Using code provided in the appendix section E I was able to produce the following
+Using code provided in the appendix E, I was able to produce the following
 plot.  
-\begin{center}
-    \includegraphics[scale=0.4]{final_pmf}
-\end{center}
 We notice that question 1 is very spread out and uneven in probability. We can
 assume that it was very easy to obtain a grade of 100\% given that a student studied that topic.
-Question 2 seems to be following the student distribution as well as question 3 however we notice
-higher grades for question meaning that it is probably easier. Question 3 seem to be harder as we notice
-a significant probability for grades below 40\%.
-This approach can be good to use as if we notice low values for the PMF then that exam is likely to be hard.
-On the other hand, it could lead to false positives to as students as a group are likely to study
+Question 2 and 3 seem to be following student distribution.
+\begin{center}
+    \includegraphics[scale=0.385]{final_pmf}
+\end{center}
+However we notice higher grades for question 2 meaning that it is probably easier.
+Question 3 seem to be harder as we notice a significant probability for grades below 40\%.
+This approach can be good to use as if an entire class obtains low grades, the PMF will reflect that and 
+that can be a good indicator that an question is likely to be hard.
+On the other hand, it could lead to false positives as students as a group are likely to study
 similar topics, we could notice a low PMF for a question that was in fact easy but the students did not
 study for.
-
 
 \subsection*{Part b}
 The code for this question is added to the appendix section F. I decided to use binnings
@@ -105,58 +113,61 @@ accuracy (for instance making the ranges too wide would loose too much accuracy 
 make it harder to draw conclusions).
 
 \subsection*{Part c}
-The code for this question is also in the appendix section F as it was integrated with part b's code.
-I decided to use CLT confidence intervals as it is easy to obtain means and variances using matlab.
+The code to obtain the following plot is also in the appendix section F as it was integrated with part b's code.
+I decided to use CLT 95\% confidence intervals.
 \begin{center}
-    \includegraphics[scale=0.55]{final_c}
+    \includegraphics[scale=0.45]{final_c}
 \end{center}
 In question 2, we notice that the means for all categories is always above
 40. We also notice that students who did poorly in question 1 go similar grades in question 2
-as students who graded high in question 1. We also notice that students with high scores for question
-1 obtained very varied scores in question 2, we notice this thanks to the confidence intervals being very big, 
-thus it seems question 2 harder question to obtain high grades in than question 1, however it seems to be 
+as students who scored relatively high in question 1. 
+Using confidence intervals, we observe that students with high grades for question
+1 obtained very varied scores in question 2 as the intervals are very large. 
+Thus it seems question 2 is a harder question to obtain high grades in than question 1, however it seems to be 
 relatively easy to obtain a score of 40\%. 
 In question 3, we notice a more usual distribution with students who did poorly in question 1 getting lower grades than
 those who scored well in question 1. However we also notice once again that those who obtained high grades
 in question 1 obtained a grade near 50\% for question 3 with very small confidence intervals meaning
-that this question is very likely to be hard.
+that this question is very likely to be hard to score high in.
 
 
 \subsection*{Part d}
-Using the mark obtained in question 1 as an input to do model and marks for the following questions
+Using the mark obtained in question 1 as an input to our model and marks for the following questions
 as training data, we can use linear regression to predict marks for a student.
-We would use the hypothesis $ h_{\theta}(x) = \theta_{0} + \theta_{1}x_{1} + \theta_{2}x_{2} $. Where
+We would use the hypothesis $ h_{\theta}(x) = \theta_{0} + \theta_{1}x_{1} + \theta_{2}x_{2} $.
 We would then measure the accuracy of our model using the following cost function 
 $ J(\theta) = \frac{1}{m}\sum_{i = 1}^m (h_{\theta}(x^{i}) - y^{i})^2$. Finally, to get the most accurate
 predictions, we want to find values for our parameters such that they minimize the outputs of our loss
 function. One way to do this is by using gradient descent. Thus we can use the following algorithm to find such
 values. Repeat the following 2 steps: Step 1 - for j=0 to n: $ tmp_{j} = \theta_{j} - \frac{2\alpha}{m}$
-$\sum_{i = 1}^m (h_{\theta}(x^{(i)}) - y^{(i)})x_{j}^{(i)}$. Step 2 - for j=0 to n: $ \theta_{j} = tmp_{j} $
+$\sum_{i = 1}^m (h_{\theta}(x^{(i)}) - y^{(i)})x_{j}^{(i)}$. Step 2 - for j=0 to n: $ \theta_{j} = tmp_{j} $.
 According to the graph from part c, it seems that question 3 follows a linear regression. Question 2 however
-is not as clear, it seems to follow a linear pattern however the confidence interval towards to end are too wide 
-to be able to make decisions on which model might be better suited, perhaps a cubic model could work better here.
+is not as clear, it seems to follow a linear pattern however the confidence intervals for grades over 70\% are 
+too wide to be able to make decisions on which model might be better suited, perhaps a cubic model could work better here.
 The type of randomness assumed in linear regression is applicable for exam marks as many different factors
-outside of topics studied affect a grade, things such as fatigue, performance, stress or even lecturer grading for example.
+outside of previously obtained grades affect a grade, things such as fatigue, performance, stress or even lecturer grading for example.
 
 \subsection*{Part e}
-Since we know that marks $ X_{ij} $ are normally distributed (ie 
-$X_{ij}\sim N(S_{i} - D_{j}, \sigma^2)$). Then the probability density function is 
+Since we know that marks $ X_{ij} $ are normally distributed 
+($X_{ij}\sim N(S_{i} - D_{j}, \sigma^2)$). Then the probability density function is 
 $ \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}(\frac{x - (S_{i} - D_{j})}{\sigma})^2} $.
 Finally, given that all student marks are independent we can use this PDF to obtain a 
 log-likelihood function. $ \prod_{i = 1}^N\frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x - S_{i} - D_{j})^2}{2\sigma^2}} $
-$ = (\sigma^{2}2\pi)^{-N/2}e^{-\frac{1}{2\sigma^2}\sum_{i = 1}^N(S_{i} - D_{j})^2} $
+$ = (\sigma^{2}2\pi)^{-N/2}e^{-\frac{1}{2\sigma^2}\sum_{i = 1}^N(S_{i} - D_{j})^2} $.
 
 \subsection*{Part f}
 We are looking to estimate values for parameters $S_{i}, D_{j}$ such that they maximise the above log-likelihood
 function. We can use gradient ascent, the algorithm is the same as part d however we will be using
-the negative loss function such that we find a maximum. Thus the algorithm here is also in 2 steps.
-Step 1 - for j=0 to n: $ tmp_{j} = \theta_{j} - \frac{2\alpha}{m}$
+the negative loss function such as to find a maximum. Thus the algorithm here is also in 2 steps.
+Step 1 - for j=0 to n: $ tmp_{j} = \theta_{j} + \frac{2\alpha}{m}$
 $\sum_{i = 1}^m (h_{\theta}(x^{(i)}) + y^{(i)})x_{j}^{(i)}$. 
 Step 2 - for j=0 to n: $ \theta_{j} = tmp_{j} $ 
 Note that in this case we have 2 unknown parameters $ \theta $, these are $ S_{i} $ and $ D_{j} $.
 
 \section*{Appendix}
-\subsection*{Section A - Question 1d}
+\subsection*{Section A - Question 1c and 1d}
+Code to plot the probability of failing against the number of 
+studied topics for both 3 and 4 questions exam types. \\
 \begin{lstlisting}
 y4qs = zeros([1 10]);
 y3qs = zeros([1 10]);
@@ -181,8 +192,8 @@ yAxis = [y3qs; y4qs];
 xlabel('number of topics studied n')
 ylabel('proability of failing')
 bar(xAxis, yAxis);
-title('Blue plot is for a 3 questions 
-    exam and red is for a 4 questions exam.')
+legend(['3 Questions exam'; '4 Questions exam']);
+title('Probability of failing per studied topics');
 
 function [m] = customNChooseK(n,k)
     if(n < k)
@@ -195,6 +206,10 @@ end
 
 
 \subsection*{Section B - Question 1e}
+Code for a stochastic simulation of the exam setup with three questions.
+Function takes a number $ n $ which designs the amount of studied topics.
+The simulation picks randomly a set of studied topics and exam topics 
+and returns 1 if the student passes, else 0.
 \begin{lstlisting}
 function [X] = simulation3Questions(n)
     % number of topics
@@ -217,7 +232,8 @@ end
 
 
 \subsection*{Section C - Question 1f}
-Extended stochastic simulation.
+Extended stochastic simulation. Runs the above simulation in Section B
+N times and returns the empirical mean. $\\$
 \begin{lstlisting}
 function [X] = simulationEmpiricalMean(n, N)
     passCount = 0;
@@ -243,7 +259,7 @@ end
 
 \subsection*{Section D - Question 1g}
 Code for running the extended stochastic simulation N times and
-displaying the \% of times that the simulated empirical mean falls within a
+displaying the percentage of times that the simulated empirical mean falls within a
 confidence interval.
 \begin{lstlisting}
 % count for times mean falls within interval
@@ -301,8 +317,8 @@ hold on
 combined = [countsQ1/nstudents; 
     countsQ2/nstudents; countsQ3/nstudents];
 bar(0:100,combined, 1,'stacked');
-xlabel('PMF');
-ylabel('Grade');
+xlabel('Grade');
+ylabel('PMF');
 legend(['Question 1'; 'Question 2'; 'Question 3']);
 title('PMF for exam questions');
 bar(xAxis, yAxis);
@@ -376,7 +392,7 @@ xaxis = 10:10:100;
 yaxis = [reshape(means(:,1),1,10);
     reshape(means(:,2),1,10)];
 xlabel('Mark for Question 1');
-ylabel(' mean mark conditioned on question one');
+ylabel('Mean');
 title('Mean marks with confidence intervals');
 bar(xaxis, yaxis);
 
