@@ -35,13 +35,13 @@ $\begin{pmatrix} n \\ 3 \end{pmatrix}$ combinations thus the probability of fail
 The plot is provided in the following question (part d).
 
 \subsection*{Part d}
-When an exam is composed of 4 question there are 3 cases to consider in order to obtain an expression for passing the exam.
+When an exam is composed of 4 questions there are 3 cases to consider in order to obtain an expression for passing the exam.
 Using the same idea from part c, we sum the amount of combinations for knowing, 2, 3 and 4 of the topics on the exam:
 $1 - [\frac{\begin{pmatrix} 10 - n \\ 2 \end{pmatrix}\begin{pmatrix} n \\ 2 \end{pmatrix}+(10 - n)\begin{pmatrix} n \\ 3 \end{pmatrix} + \begin{pmatrix} n \\ 4 \end{pmatrix}}{\begin{pmatrix} 10 \\ 4 \end{pmatrix}}]$.
 Using the code in the Appendix section A,  I obtained the following plot. We notice that
-a 4 questions exam system is easier to pass for any number of studied topics, with the biggest difference
+a 4 question exam system is easier to pass for any number of studied topics, with the biggest difference
 occuring when $ n = 4 $ and $ n = 5 $ and very low chance of failing when $ n \geq 6$. For a 3 questions exam the probability
-is as low when $ n \geq 8 $, making the exam much simpler to pass with a 4 questions system.
+is as low when $ n \geq 8 $, making the exam much simpler to pass with a 4 question system.
 \begin{center}
     \includegraphics[scale=0.4]{final_11}
 \end{center}
@@ -69,15 +69,16 @@ $ N = 10000 $ it is 96.3\%. We find that both values of N fall very close to 95\
 The CLT confidence intervals were built with with 95\% accuracy so everything is in order.
 
 \subsection*{Part h}
-If students know that topics from the previous exam are more likely to appear, then overall students
+If students know that topics from the previous exam are more likely to appear, we can observe that overall students
 they will likely prioritise studying those topics. However this also only applies to 3 topics and thus
 some students may also still decide to study potentially easier topics instead of a certain topic 
 from the previous year. So in general a system like this would affect overall how the class studies but
 it would not get rid of students deciding to only study different topics either. Thus I believe it makes sense to 
 use the same weights for drawing the exam questions as for drawing the topics a student decides to study.
-Using the simulation, we notice an overall increase in the means for passing, with the empirical mean getting to $0.5$
-near $4.5$ topics studied, and gets near $0.8$ when $6$ topics are studied. In the case that exam  questions are less likely to appear if they were in the previous exam then with students using
-the same approach as previously outlined, except this time being less likely to study those topics, we also notice
+Using the simulation, We notice an overall increase in the mean of passing, with the empirical mean getting close to 
+$0.5$ when $4.5$ topics are studied, and gets near $0.8$ when $6$ topics are studied. In the case that exam  
+questions are less likely to appear if they were in the previous exam then with students using the same approach as 
+previously outlined, except this time being less likely to study those topics, we also notice
 an increase overall in means for passing for all amounts of topics studied however the difference is not as big as the previous
 since this leaves $7$ remaining topics that are more likely to be drawn, so the probability for one of these to appear in the
 exam would be significantly lower than previously where only 3 topics were more likely to be drawn.
@@ -109,7 +110,7 @@ study for.
 \subsection*{Part b}
 The code for this question is added to the appendix section F. I decided to use binnings
 with a range of 10\% as it allowed for a cleaner display of means and variances while keeping 
-accuracy (for instance making the ranges too wide would loose too much accuracy and thus would 
+accuracy (for instance making the ranges too wide would lose too much accuracy and thus would 
 make it harder to draw conclusions).
 
 \subsection*{Part c}
@@ -119,14 +120,14 @@ I decided to use CLT 95\% confidence intervals.
     \includegraphics[scale=0.45]{final_c}
 \end{center}
 In question 2, we notice that the means for all categories is always above
-40. We also notice that students who did poorly in question 1 go similar grades in question 2
-as students who scored relatively high in question 1. 
+40. We also notice that students who did poorly in question 1 obtained grades in question 2 very similar 
+to students who scored relatively high in question 1. 
 Using confidence intervals, we observe that students with high grades for question
 1 obtained very varied scores in question 2 as the intervals are very large. 
 Thus it seems question 2 is a harder question to obtain high grades in than question 1, however it seems to be 
 relatively easy to obtain a score of 40\%. 
 In question 3, we notice a more usual distribution with students who did poorly in question 1 getting lower grades than
-those who scored well in question 1. However we also notice once again that those who obtained high grades
+those who scored well in question 1. However, we also notice once again that those who obtained high grades
 in question 1 obtained a grade near 50\% for question 3 with very small confidence intervals meaning
 that this question is very likely to be hard to score high in.
 
@@ -177,7 +178,7 @@ for n = 1:10
     y3qs(n) = 1 - (((10-n) *
         (customNChooseK(n,2))/customNChooseK(10,3))+
         (customNChooseK(n,3)/customNChooseK(10,3)));
-    % probability of failing for a 4 questions exam
+    % probability of failing for a 4 question exam
     y4qs(n) = 1 - (((10-n)*(customNChooseK(n,3)) /
         customNChooseK(10,4))+ (customNChooseK(n,4) /
         customNChooseK(10,4)) + (customNChooseK(10-n,2) *
